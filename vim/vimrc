@@ -4,34 +4,21 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
-" bundles bundles
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'bling/vim-bufferline.git'
-Plugin 'davidhalter/jedi-vim.git'
-
-" programming
-Plugin 'Valloric/YouCompleteMe.git'
-Plugin 'scrooloose/syntastic.git'
-
-" interface
-Plugin 'altercation/vim-colors-solarized'
-
-" navigating
 Plugin 'kien/ctrlp.vim.git'
-Plugin 'scrooloose/nerdtree.git'
-
-" vim interface
-Plugin 'flazz/vim-colorschemes.git'
-
-" python
+Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'hynek/vim-python-pep8-indent.git'
+Plugin 'tpope/vim-sensible.git'
 Plugin 'jmcantrell/vim-virtualenv.git'
-
-call vundle#end()
-
-:let mapleader = "-"
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/syntastic.git'
+Plugin 'bling/vim-bufferline'
+Plugin 'davidhalter/jedi-vim.git'
+" " All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 set modelines=0
 
@@ -41,7 +28,7 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 
-" More Common Settings.
+"" More Common Settings.
 set encoding=utf-8
 set scrolloff=3
 set autoindent
@@ -117,11 +104,33 @@ set wildignore+=node_modules
 set wildignore+=*.class
 set wildignore+=.stack-work
 
+let mapleader = ","
+nnoremap <leader><leader> <c-^>
+map <C-n> :NERDTreeToggle<CR>
+
 syntax enable
+set encoding=utf-8
+set showcmd                     " display incomplete commands
+filetype plugin indent on       " load file type plugins + indentation
 set background=dark
 colorscheme solarized
 
+"" Whitespace
+set number                      " show line numbers
+set nowrap                      " don't wrap lines
+set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+set expandtab                   " use spaces, not tabs (optional)
+set backspace=indent,eol,start  " backspace through everything in insert mode
 
+"" Searching
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
+
+"" copy pasta
 set clipboard+=unnamed  " use the clipboards of vim and win
 set paste               " Paste from a windows or from vim
 set go+=a               " Visual selection automatically copied to the clipboard
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
