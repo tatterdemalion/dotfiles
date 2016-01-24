@@ -16,6 +16,9 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic.git'
 Plugin 'bling/vim-bufferline'
 Plugin 'davidhalter/jedi-vim.git'
+Plugin 'rizzatti/funcoo.vim'
+Plugin 'rizzatti/greper.vim'
+Plugin 'tpope/vim-commentary.git'
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -106,7 +109,18 @@ set wildignore+=.stack-work
 
 let mapleader = ","
 nnoremap <leader><leader> <c-^>
+nnoremap <S-Tab> <C-o>          " shift+tab instead of kntrl-o and tab to return
 map <C-n> :NERDTreeToggle<CR>
+map <C-x> :CtrlPBuffer<CR>      " open buffer list
+nnoremap <leader><Space> :nohlsearch<cr>
+nnoremap ' `                    " match single quote to backtick
+nnoremap ` '                    " and match backtick to single quote
+
+" easier navigation between split windows
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 syntax enable
 set encoding=utf-8
