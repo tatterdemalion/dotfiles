@@ -32,15 +32,18 @@ set modelines=0
 set t_Co=256
 
 set background=dark
-colorscheme molokai
-let g:currentscheme = 'molokai'
+colorscheme flatui
+let g:currentscheme = 'flatui'
 
 function! GetScheme(Direction)
 python << endpython
 import vim
 current = vim.eval("g:currentscheme")
 direction = vim.eval("a:Direction")
-schemes = ['Tomorrow', 'zenburn', 'molokai', 'lucius', 'solarized', 'Monokai']
+schemes = [
+		'Tomorrow', 'zenburn', 'molokai', 'lucius', 'solarized', 'Monokai',
+		'flattr', 'flatland', 'flatcolor', 'flatui', 'mac_classic', 'neverland',
+		'neverland-darker', 'newspaper', 'obsidian', 'PaperColor', 'perfect']
 use = schemes[0]
 if current in schemes:
     index = schemes.index(current)
@@ -157,8 +160,8 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 nnoremap <Space> za             " folding
-map <C-m> :call GetScheme('next')<CR>
-map <C-m>m :call GetScheme('prev')<CR>
+map <C-v> :call GetScheme('next')<CR>
+map <C-v>v :call GetScheme('prev')<CR>
 
 syntax enable
 set encoding=utf-8
