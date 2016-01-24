@@ -19,6 +19,10 @@ Plugin 'davidhalter/jedi-vim.git'
 Plugin 'rizzatti/funcoo.vim'
 Plugin 'rizzatti/greper.vim'
 Plugin 'tpope/vim-commentary.git'
+Plugin 'bling/vim-airline'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-scripts/taglist.vim'
+
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -75,6 +79,10 @@ set listchars=tab:▸\ ,eol:¬
 " enable folding
 set foldmethod=indent
 set foldlevel=99
+set foldnestmax=2
+
+" taglist
+let Tlist_WinWidth = 79
 
 " Set title to window
 set title
@@ -121,6 +129,9 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+nnoremap <Space> za             " folding
+map <C-m> :TlistToggle<CR>
 
 syntax enable
 set encoding=utf-8
