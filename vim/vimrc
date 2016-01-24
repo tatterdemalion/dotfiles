@@ -7,7 +7,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'kien/ctrlp.vim.git'
-Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'hynek/vim-python-pep8-indent.git'
 Plugin 'tpope/vim-sensible.git'
 Plugin 'jmcantrell/vim-virtualenv.git'
@@ -22,12 +21,37 @@ Plugin 'tpope/vim-commentary.git'
 Plugin 'bling/vim-airline'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/taglist.vim'
+Plugin 'flazz/vim-colorschemes.git'
 
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 set modelines=0
+set t_Co=256
+
+set background=dark
+colorscheme molokai
+let g:currentscheme = 'molokai'
+
+function! GetScheme(Direction)
+python << endpython
+import vim
+current = vim.eval("g:currentscheme")
+direction = vim.eval("a:Direction")
+schemes = ['Tomorrow', 'zenburn', 'molokai', 'lucius', 'solarized', 'Monokai']
+use = schemes[0]
+if current in schemes:
+    index = schemes.index(current)
+    if direction == 'next':
+        index += 1
+    elif direction == 'prev':
+        index -= 1
+    use = schemes[(index) % len(schemes)]
+vim.command("colorscheme " + use)
+vim.command("let g:currentscheme = '{}'".format(use))
+endpython
+endfunction
 
 "TAB settings.
 set tabstop=4
@@ -120,6 +144,7 @@ nnoremap <leader><leader> <c-^>
 nnoremap <S-Tab> <C-o>          " shift+tab instead of kntrl-o and tab to return
 map <C-n> :NERDTreeToggle<CR>
 map <C-x> :CtrlPBuffer<CR>      " open buffer list
+map <C-z> :TlistToggle<CR>
 nnoremap <leader><Space> :nohlsearch<cr>
 nnoremap ' `                    " match single quote to backtick
 nnoremap ` '                    " and match backtick to single quote
@@ -131,14 +156,13 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 nnoremap <Space> za             " folding
-map <C-m> :TlistToggle<CR>
+map <C-m> :call GetScheme('next')<CR>
+map <C-m>m :call GetScheme('prev')<CR>
 
 syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
-set background=dark
-colorscheme solarized
 
 "" Whitespace
 set number                      " show line numbers
