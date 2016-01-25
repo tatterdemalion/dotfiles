@@ -32,8 +32,8 @@ set modelines=0
 set t_Co=256
 
 set background=dark
-colorscheme flatui
-let g:currentscheme = 'flatui'
+colorscheme PaperColor
+let g:currentscheme = 'PaperColor'
 
 function! GetScheme(Direction)
 python << endpython
@@ -43,7 +43,8 @@ direction = vim.eval("a:Direction")
 schemes = [
 		'Tomorrow', 'zenburn', 'molokai', 'lucius', 'solarized', 'Monokai',
 		'flattr', 'flatland', 'flatcolor', 'flatui', 'mac_classic', 'neverland',
-		'neverland-darker', 'newspaper', 'obsidian', 'PaperColor', 'perfect']
+		'neverland-darker', 'newspaper', 'obsidian', 'PaperColor', 'perfect',
+		'pencil']
 use = schemes[0]
 if current in schemes:
     index = schemes.index(current)
