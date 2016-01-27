@@ -28,12 +28,17 @@ Plugin 'elzr/vim-json.git'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" swp files
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
 set modelines=0
 set t_Co=256
 
 set background=dark
-colorscheme PaperColor
-let g:currentscheme = 'PaperColor'
+colorscheme Monokai
+let g:currentscheme = 'Monokai'
 
 function! GetScheme(Direction)
 python << endpython
