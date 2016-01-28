@@ -149,6 +149,8 @@ set wildignore+=node_modules
 set wildignore+=*.class
 set wildignore+=.stack-work
 
+let NERDTreeIgnore = ['\.pyc$']
+
 let mapleader = ","
 nnoremap <leader><leader> <c-^>
 nnoremap <S-Tab> <C-o>          " shift+tab instead of kntrl-o and tab to return
