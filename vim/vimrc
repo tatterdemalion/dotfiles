@@ -7,7 +7,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'kien/ctrlp.vim.git'
-Plugin 'hynek/vim-python-pep8-indent.git'
+Plugin 'klen/python-mode'
 Plugin 'tpope/vim-sensible.git'
 Plugin 'jmcantrell/vim-virtualenv.git'
 Plugin 'scrooloose/nerdtree.git'
