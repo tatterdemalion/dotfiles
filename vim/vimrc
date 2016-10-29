@@ -155,12 +155,11 @@ let mapleader = ","
 nnoremap <leader><leader> <c-^>
 nnoremap <S-Tab> <C-o>          " shift+tab instead of kntrl-o and tab to return
 map <C-n> :NERDTreeToggle<CR>
-map <C-x> :CtrlPBuffer<CR>      " open buffer list
 map <C-z> :TlistToggle<CR>
 nnoremap <leader><Space> :nohlsearch<cr>
 nnoremap ' `                    " match single quote to backtick
 nnoremap ` '                    " and match backtick to single quote
-
+vmap r "_dP
 " easier navigation between split windows
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
