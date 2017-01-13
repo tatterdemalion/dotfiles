@@ -23,6 +23,8 @@ Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'flazz/vim-colorschemes.git'
 Plugin 'elzr/vim-json.git'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -39,29 +41,6 @@ set t_Co=256
 set background=dark
 colorscheme Monokai
 let g:currentscheme = 'Monokai'
-
-function! GetScheme(Direction)
-python << endpython
-import vim
-current = vim.eval("g:currentscheme")
-direction = vim.eval("a:Direction")
-schemes = [
-		'Tomorrow', 'zenburn', 'molokai', 'lucius', 'solarized', 'Monokai',
-		'flattr', 'flatland', 'flatcolor', 'flatui', 'mac_classic', 'neverland',
-		'neverland-darker', 'newspaper', 'obsidian', 'PaperColor', 'perfect',
-		'pencil']
-use = schemes[0]
-if current in schemes:
-    index = schemes.index(current)
-    if direction == 'next':
-        index += 1
-    elif direction == 'prev':
-        index -= 1
-    use = schemes[(index) % len(schemes)]
-vim.command("colorscheme " + use)
-vim.command("let g:currentscheme = '{}'".format(use))
-endpython
-endfunction
 
 "TAB settings.
 set tabstop=4
