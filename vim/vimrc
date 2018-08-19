@@ -6,25 +6,33 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'kien/ctrlp.vim.git'
+" Plugin 'kien/ctrlp.vim.git'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
 Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'tell-k/vim-autopep8'
 Plugin 'tpope/vim-sensible.git'
 Plugin 'jmcantrell/vim-virtualenv.git'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/syntastic.git'
+Plugin 'w0rp/ale'
+" Plugin 'scrooloose/syntastic.git'
 Plugin 'bling/vim-bufferline'
 Plugin 'davidhalter/jedi-vim.git'
 Plugin 'rizzatti/funcoo.vim'
-Plugin 'rizzatti/greper.vim'
+Plugin 'christoomey/vim-tmux-navigator'
+" Plugin 'rizzatti/greper.vim'
 Plugin 'tpope/vim-commentary.git'
-Plugin 'bling/vim-airline'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/taglist.vim'
 Plugin 'flazz/vim-colorschemes.git'
 Plugin 'elzr/vim-json.git'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'rust-lang/rust.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'ryanoasis/vim-devicons'
 
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -35,12 +43,28 @@ set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 
+" disable arrow keys in normal mode
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
 set modelines=0
 set t_Co=256
 
 set background=dark
 colorscheme Monokai
 let g:currentscheme = 'Monokai'
+
+au FileType python setlocal formatprg=autopep8\ -
+
+" Remove traling whitespaces
+func! DeleteTrailingWS()
+  %s/\s\+$//e
+endfunc
+
+" Remove tralinig whitespaces in Python files on save
+autocmd BufWrite *.py :call DeleteTrailingWS()
 
 "TAB settings.
 set tabstop=4
@@ -49,7 +73,7 @@ set softtabstop=4
 set expandtab
 
 "" More Common Settings.
-set encoding=utf-8
+set encoding=UTF-8
 set scrolloff=3
 set autoindent
 set noshowmode
@@ -68,7 +92,7 @@ set relativenumber
 
 set undofile
 set shell=/bin/bash
-set lazyredraw
+set nolazyredraw
 set matchtime=3
 
 "Settings for Searching and Moving
@@ -80,9 +104,9 @@ set hlsearch
 
 " Make Vim to handle long lines nicely.
 set wrap
-set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=79
+set textwidth=79
 
 set completeopt-=preview
 
@@ -135,6 +159,8 @@ nnoremap <leader><leader> <c-^>
 nnoremap <S-Tab> <C-o>          " shift+tab instead of kntrl-o and tab to return
 map <C-n> :NERDTreeToggle<CR>
 map <C-z> :TlistToggle<CR>
+map <C-t> :TagbarToggle<CR>
+
 nnoremap <leader><Space> :nohlsearch<cr>
 nnoremap ' `                    " match single quote to backtick
 nnoremap ` '                    " and match backtick to single quote
@@ -148,6 +174,15 @@ nnoremap <c-l> <c-w>l
 nnoremap <Space> za             " folding
 map <C-v> :call GetScheme('next')<CR>
 map <C-v>v :call GetScheme('prev')<CR>
+
+nnoremap tf  :tabfirst<CR>
+nnoremap tn  :tabnext<CR>
+nnoremap tp  :tabprev<CR>
+nnoremap tl  :tablast<CR>
+nnoremap te  :tabedit<Space>
+nnoremap tm  :tabm<Space>
+nnoremap tc  :tabclose<CR>
+nnoremap tt  :tabnew<CR>
 
 syntax enable
 set encoding=utf-8
@@ -172,6 +207,59 @@ set clipboard+=unnamed  " use the clipboards of vim and win
 set paste               " Paste from a windows or from vim
 set go+=a               " Visual selection automatically copied to the clipboard
 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_max_files=0
-let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files --exclude-standard -co']
+"set runtimepath^=~/.vim/bundle/ctrlp.vim
+"let g:ctrlp_max_files=0
+"let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files --exclude-standard -co']
+
+nmap ; :Buffers<CR>
+nmap <Leader>t :Files<CR>
+nmap <Leader>T :Tags<CR>
+
+"" react
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+let g:ale_sign_error = 'E'
+let g:ale_linters = {'javascript': ['stylelint', 'eslint']}
+" highlight clear ALEErrorSign
+"let g:ale_lint_on_text_changed = 'never'
+nmap <silent> <C-a> <Plug>(ale_next_wrap)
+let g:ycm_python_binary_path = 'python'
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('py', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+
+set exrc
